@@ -411,24 +411,40 @@ namespace LYP.UICodeBuilder
 		private void DrawPreviewText()
 		{
 			EditorGUILayout.Space();
-
-			if (GUILayout.Button("Copy Code"))
+			using(EditorGUILayout.HorizontalScope hScope = new EditorGUILayout.HorizontalScope())
 			{
-				TextEditor p = new TextEditor();
-				if (codeStateText != null)
+				if (GUILayout.Button("Copy Code", GUILayout.Width(halfViewWidth * 0.5f)))
 				{
-					codeAllText = new StringBuilder(codeStateText.ToString());
-					codeAllText.Append(codeAssignText);
-					codeAllText.Append(codeEventText);
-					p.text = codeAllText.ToString();
-					p.OnFocus();
-					p.Copy();
+					TextEditor p = new TextEditor();
+					if (codeStateText != null)
+					{
+						codeAllText = new StringBuilder(codeStateText.ToString());
+						codeAllText.Append(codeAssignText);
+						codeAllText.Append(codeEventText);
+						p.text = codeAllText.ToString();
+						p.OnFocus();
+						p.Copy();
 
-					EditorUtility.DisplayDialog("Tips", "Copy succeed!", "OK");
+						EditorUtility.DisplayDialog("Tips", "Copy succeed!", "OK");
+					}
+					else
+					{
+						EditorUtility.DisplayDialog("Tips", "Copy nothing! Please check 1st step.", "OK");
+					}
 				}
-				else
+				if (GUILayout.Button("Clear Code(2)", GUILayout.Width(halfViewWidth * 0.25f)))
 				{
-					EditorUtility.DisplayDialog("Tips", "Copy nothing! Please check 1st step.", "OK");
+					if (codeEventText != null)
+					{
+						codeEventText.Remove(0, codeEventText.Length);
+					}
+				}
+				if (GUILayout.Button("Clear Code(3)", GUILayout.Width(halfViewWidth * 0.25f)))
+				{
+					if (codeAssignText != null)
+					{
+						codeAssignText.Remove(0, codeAssignText.Length);
+					}
 				}
 			}
 
